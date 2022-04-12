@@ -7,14 +7,19 @@ import TodoItem from './TodoItem';
  * renderItem => 아이템들을 각각 보여줄 형식
  * keyExtractor => 각 아이템을 지정해줄 고유값
  * */
-function TodoList({todos}) {
+function TodoList({todos, onToggle}) {
   return (
     <FlatList
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       style={styles.list}
       data={todos}
       renderItem={({item}) => (
-        <TodoItem id={item.id} text={item.text} done={item.done} />
+        <TodoItem
+          id={item.id}
+          text={item.text}
+          done={item.done}
+          onToggle={onToggle}
+        />
       )}
       keyExtractor={item => item.id.toString()}
     />
