@@ -19,6 +19,19 @@ function App() {
     {id: 3, text: '투두리스트 만들어보기', done: false},
   ]);
 
+  const onInsert = text => {
+    // 새로등록할 항목의 id 조회 -> 가장큰 아이디에서 +1, 리스트가 없다면 1을 사용
+    const nextId =
+      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
+    const todo = {
+      id: nextId,
+      text,
+      done: false,
+    };
+
+    setTodos(todos.concat(todo)); // 새로운 todo를 todos에 추가
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView edges={['bottom']} style={styles.block}>
@@ -27,7 +40,7 @@ function App() {
           style={styles.avoid}>
           <DateHead date={today} />
           {todos.length === 0 ? <Empty /> : <TodoList todos={todos} />}
-          <AddTodo />
+          <AddTodo onInsert={onInsert} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </SafeAreaProvider>

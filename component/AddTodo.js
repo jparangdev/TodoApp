@@ -6,10 +6,11 @@ import {
   Image,
   TouchableOpacity,
   Platform,
-  TouchableNativeFeedback, Keyboard,
+  TouchableNativeFeedback,
+  Keyboard,
 } from 'react-native';
 
-function AddTodo() {
+function AddTodo({onInsert}) {
   const [text, setText] = useState('');
 
   const button = (
@@ -19,6 +20,7 @@ function AddTodo() {
   );
 
   const onPress = () => {
+    onInsert(text);
     setText('');
     Keyboard.dismiss();
   };
