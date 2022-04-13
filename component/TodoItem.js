@@ -5,6 +5,7 @@ function TodoItem({id, text, done, onToggle}) {
   return (
     <View style={styles.item}>
       <TouchableOpacity onPress={() => onToggle(id)}>
+        {/*onPress={onToggle(id)} 형태로 작성하면 안됨.. 이런경우 컴포넌트가 리랜더링 될때마다 onToggle(id)를 호출*/}
         <View style={[styles.circle, done && styles.filled]}>
           {done && (
             <Image
