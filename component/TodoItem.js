@@ -1,7 +1,8 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-function TodoItem({id, text, done, onToggle}) {
+function TodoItem({id, text, done, onToggle, onRemove}) {
   return (
     <View style={styles.item}>
       <TouchableOpacity onPress={() => onToggle(id)}>
@@ -15,6 +16,14 @@ function TodoItem({id, text, done, onToggle}) {
         </View>
       </TouchableOpacity>
       <Text style={[styles.text, done && styles.lineThrough]}>{text}</Text>
+      {done ? (
+        <TouchableOpacity onPress={() => onRemove(id)}>
+          {/* 아직도 화살표로 하는것고 아닌것의 차이를 모르겠다. */}
+          <Icon name="delete" size={32} color="red" />
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.replaceholder} />
+      )}
     </View>
   );
 }
@@ -47,6 +56,10 @@ const styles = StyleSheet.create({
   lineThrough: {
     color: '#9e9e9e',
     textDecorationLine: 'line-through',
+  },
+  replaceHolder: {
+    width: 32,
+    height: 32,
   },
 });
 
