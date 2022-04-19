@@ -1,8 +1,37 @@
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 function TodoItem({id, text, done, onToggle, onRemove}) {
+  const remove = () => {
+    Alert.alert(
+      /* title 제목, message 내용, buttions 버튼배열, option cancelable 은 영역 밖을눌렀을때 사라짐 안드로이드만, onDismiss는 종료시 호출될 함수*/
+      '삭제',
+      '정말로 삭제하시겠어요?',
+      [
+        /*text -> 버튼 이름, onPress -> 버튼시 작동하는 함수, style은 ios에서만 작동하며 cancel, default, destructive 3개*/
+        {text: '취소', onPress: () => {}, style: 'cancel'},
+        {
+          text: '삭제',
+          onPress: () => {
+            onRemove(id);
+          },
+          style: 'destructive',
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () => {},
+      },
+    );
+  };
   return (
     <View style={styles.item}>
       <TouchableOpacity onPress={() => onToggle(id)}>
@@ -17,12 +46,12 @@ function TodoItem({id, text, done, onToggle, onRemove}) {
       </TouchableOpacity>
       <Text style={[styles.text, done && styles.lineThrough]}>{text}</Text>
       {done ? (
-        <TouchableOpacity onPress={() => onRemove(id)}>
+        <TouchableOpacity onPress={remove}>
           {/* 아직도 화살표로 하는것고 아닌것의 차이를 모르겠다. */}
           <Icon name="delete" size={32} color="red" />
         </TouchableOpacity>
       ) : (
-        <View style={styles.replaceholder} />
+        <View style={styles.replaceHolder} />
       )}
     </View>
   );
