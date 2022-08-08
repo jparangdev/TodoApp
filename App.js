@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   KeyboardAvoidingView,
@@ -10,6 +10,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context/src/SafeAreaConte
 import AddTodo from './component/AddTodo';
 import Empty from './component/Empty';
 import TodoList from './component/TodoList';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function App() {
   const today = new Date();
@@ -18,6 +19,32 @@ function App() {
     {id: 2, text: '리엑트 네이티브 기초 공부', done: false},
     {id: 3, text: '투두리스트 만들어보기', done: false},
   ]);
+
+  // load
+  useEffect(() => {
+    async function load() {
+      try {
+        const rawTodos = await AsyncStorage.get('todos');
+        const savedTodos = JSON.parse(rawTodos);
+        setTodos(savedTodos);
+      } catch (e) {
+        console.error('Fail save todos');
+      }
+    }
+    load();
+  }, []);
+
+  //save
+  useEffect(() => {
+    async function save() {
+      try {
+        await AsyncStorage.setTime('todos', JSON.stringify(todos));
+      } catch (e) {
+        console.error('Fail save todos');
+      }
+    }
+    save();
+  }, [todos]);
 
   const onInsert = text => {
     // 새로등록할 항목의 id 조회 -> 가장큰 아이디에서 +1, 리스트가 없다면 1을 사용
